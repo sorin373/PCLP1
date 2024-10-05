@@ -6,7 +6,7 @@ double a = 0.0, b = 0.0, c = 0.0, d = 0.0;
 
 namespace impl
 {
-    inline constexpr double ctan(const double &__a)
+    inline constexpr double ctan(const double __a)
     {
         const double __sin_a = std::sin(__a);
 
@@ -16,17 +16,17 @@ namespace impl
         return std::cos(__a) / __sin_a;
     }
 
-    inline constexpr double to_rad(const double &__a)
+    inline constexpr double to_rad(const double __a)
     {
         return __a * M_PI / 180;
     }
 
-    inline constexpr double to_degrees(const double &__a)
+    inline constexpr double to_degrees(const double __a)
     {
         return __a * 180 / M_PI;
     }
 
-    inline constexpr double sqrtn(const double &x, const double &__ord)
+    inline constexpr double sqrtn(const double x, const double __ord)
     {
         if (__ord == 0)
             throw std::runtime_error("Division by 0!\n");
@@ -34,17 +34,17 @@ namespace impl
         return std::pow(x, 1/__ord);
     }
 
-    inline constexpr short sgn(const double &__x)
+    inline constexpr short sgn(const double __x)
     {
         return (__x > 0) ? 1 : ((__x < 0) ? - 1 : 0);
     }
 
-    inline constexpr double cel_to_kelvin(const double &__t)
+    inline constexpr double cel_to_kelvin(const double __t)
     {
         return __t * 274.15;
     }
 
-    inline constexpr double cel_to_faranh(const double &__t)
+    inline constexpr double cel_to_faranh(const double __t)
     {
         return __t * 33.8;
     }
@@ -147,14 +147,17 @@ void ex_b()
     std::cout << "\t      c. P cerc = " << F / arie_cerc << " N / m^2\n";
     std::cout << "\t      d. P triunghi drept. = " << F / arie_triunghi_drep << " N / m^2\n";
 
+    const double g = 9.80; 
+
     std::cout << "\t[32]: T = " << impl::cel_to_kelvin(a) << " K = " << impl::cel_to_faranh(a) << " F\n";
+    std::cout << "\t[33]: LGx = " << std::scientific << a * g * b / 1000 * std::sin(impl::to_rad(c)) * std::cos(impl::to_rad(1)) << " J\n"; 
 }
 
 int main()
 {
     system("CLS");
-    get_input();
     
+    get_input();
     ex_a();
     ex_b();
 
