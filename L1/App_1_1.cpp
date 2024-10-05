@@ -1,3 +1,8 @@
+/**
+ * @brief PCLP - Lab_1
+ *    Folosirea functiilor matematice si de formatare ( @c cmath ; @c iomanip )
+ */
+
 #include <iostream>
 #include <cmath>
 #include <iomanip>
@@ -6,7 +11,7 @@ double a = 0.0, b = 0.0, c = 0.0, d = 0.0;
 
 namespace impl
 {
-    inline constexpr double ctan(const double __a)
+    inline double ctan(const double __a)
     {
         const double __sin_a = std::sin(__a);
 
@@ -16,35 +21,35 @@ namespace impl
         return std::cos(__a) / __sin_a;
     }
 
-    inline constexpr double to_rad(const double __a)
+    inline double to_rad(const double __a)
     {
         return __a * M_PI / 180;
     }
 
-    inline constexpr double to_degrees(const double __a)
+    inline double to_degrees(const double __a)
     {
         return __a * 180 / M_PI;
     }
 
-    inline constexpr double sqrtn(const double x, const double __ord)
+    inline double sqrtn(const double __x, const double __ord)
     {
         if (__ord == 0)
             throw std::runtime_error("Division by 0!\n");
 
-        return std::pow(x, 1/__ord);
+        return std::pow(__x, 1 / __ord);
     }
 
-    inline constexpr short sgn(const double __x)
+    inline short sgn(const double __x)
     {
         return (__x > 0) ? 1 : ((__x < 0) ? - 1 : 0);
     }
 
-    inline constexpr double cel_to_kelvin(const double __t)
+    inline double cel_to_kelvin(const double __t)
     {
         return __t * 274.15;
     }
 
-    inline constexpr double cel_to_faranh(const double __t)
+    inline double cel_to_faranh(const double __t)
     {
         return __t * 33.8;
     }
@@ -156,7 +161,7 @@ void ex_b()
 int main()
 {
     system("CLS");
-    
+
     get_input();
     ex_a();
     ex_b();
