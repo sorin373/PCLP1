@@ -7,6 +7,8 @@
 #include <cmath>
 #include <iomanip>
 
+#define CALC_PRECISION 8
+
 double a = 0.0, b = 0.0, c = 0.0, d = 0.0;
 
 namespace impl
@@ -66,7 +68,7 @@ void get_input()
 
 void ex_a()
 {
-    std::cout << "\n\t-- Operatii si functii de librarie (cmath / iomanip):\n\n" << std::fixed << std::setprecision(8);
+    std::cout << "\n\t-- Operatii si functii de librarie (cmath / iomanip):\n\n" << std::fixed << std::setprecision(CALC_PRECISION);
 
     std::cout << "\t[1]:  " << a << " + " << b << " = " << a + b << '\n';
     std::cout << "\t[2]:  " << b << " - " << c << " = " << b - c << '\n';
@@ -78,7 +80,7 @@ void ex_a()
     
     std::cout << "\t[5]:  " << "sin(" << a << ") = " << std::sin(a) << '\n';
     std::cout << "\t[6]:  " << "sin(" << a << ") = " << std::scientific << std::sin(impl::to_rad(a)) << '\n';
-    std::cout << std::fixed << std::setprecision(8) << "\t[7]:  " << "cos(" << b << ") = " << std::cos(b) << '\n';
+    std::cout << std::fixed << std::setprecision(CALC_PRECISION) << "\t[7]:  " << "cos(" << b << ") = " << std::cos(b) << '\n';
     std::cout << "\t[8]:  " << "tan(" << c << ") = " << std::tan(c) << '\n';
     std::cout << "\t[9]:  " << "ctan(" << d << ") = " << impl::ctan(d) << '\n';
     std::cout << "\t[10]: " << "asin(" << a << ") = " << impl::to_degrees(std::asin(a)) << '\n';
@@ -131,7 +133,7 @@ void ex_a()
 
 void ex_b()
 {
-    std::cout << "\n\t-- Expresii matematice:\n\n" << std::fixed << std::setprecision(8);
+    std::cout << "\n\t-- Expresii matematice:\n\n" << std::fixed << std::setprecision(CALC_PRECISION);
 
     double arie_patrat = a * a,
         arie_dreptunghi = c * d,
