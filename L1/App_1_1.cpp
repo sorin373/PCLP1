@@ -1,5 +1,5 @@
 /**
- * @brief PCLP - L1
+ * @brief PCLP - L1 - cpp
  *    Folosirea functiilor matematice si de formatare ( @c cmath ; @c iomanip )
  */
 
