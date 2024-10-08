@@ -1,5 +1,5 @@
 /**
- * @brief PCLP - Lab_1
+ * @brief PCLP - L1
  *    Folosirea functiilor matematice si de formatare ( @c cmath ; @c iomanip )
  */
 
@@ -46,12 +46,12 @@ namespace impl
         return (__x > 0) ? 1 : ((__x < 0) ? - 1 : 0);
     }
 
-    inline double cel_to_kelvin(const double __t)
+    inline double C_to_K(const double __t)
     {
         return __t * 274.15;
     }
 
-    inline double cel_to_faranh(const double __t)
+    inline double C_to_F(const double __t)
     {
         return __t * 33.8;
     }
@@ -156,7 +156,7 @@ void ex_b()
 
     const double g = 9.80; 
 
-    std::cout << "\t[32]: T = " << impl::cel_to_kelvin(a) << " K = " << impl::cel_to_faranh(a) << " F\n";
+    std::cout << "\t[32]: T = " << impl::C_to_K(a) << " K = " << impl::C_to_F(a) << " F\n";
     std::cout << "\t[33]: LGx = " << std::scientific << a * g * b / 1000 * std::sin(impl::to_rad(c)) * std::cos(impl::to_rad(1)) << " J\n"; 
 }
 
