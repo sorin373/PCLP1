@@ -1,7 +1,7 @@
 /**
  * @brief PCLP1 | L2
  *      Rezolvarea ecuatiei de gradul al 2-lea.
- * 
+ *
  * @file App_2_1.cpp
  */
 
@@ -14,15 +14,15 @@ namespace L2_Utils
 {
     /**
      * @brief Structura de date reprezentativa pentru un nr. complex (z = a + bi)
-     *     Am implementat doar functiile necesare de calcul matematic cu numere complexe (*, +) 
+     *     Am implementat doar functiile necesare de calcul matematic cu numere complexe (*, +)
      *     folosite in partea de verificare a solutiilor
-     * 
+     *
      *     @c * intre doua numere complexe, dar si cu un scalar
      *     @c + intre doua numere complexe, dar si cu un scalar
-     *     
+     *
      *     Se poate folosi atat (z + alpha) cat si (alpha + z). Analog pentru inmultire.
-     * 
-     * @tparam T Tipul de data (float | double | long double) 
+     *
+     * @tparam T Tipul de data (float | double | long double)
      */
     template <typename T>
     struct complex
@@ -32,7 +32,7 @@ namespace L2_Utils
 
         ~complex() = default;
 
-        /// Am folosit operatorul `<<` sa afisez direct un numar complex
+        /// Am folosit operatorul `<<` sa afisez direct numarul complex (a+bi)
         friend std::ostream& operator<<(std::ostream& os, const complex& __c)
         {
             os << __c.m_real;
@@ -40,7 +40,7 @@ namespace L2_Utils
             if (__c.m_imag >= 0)
                 os << "+";
 
-            os <<  __c.m_imag << "i";
+            os << __c.m_imag << "i";
 
             return os;
         }
@@ -52,8 +52,10 @@ namespace L2_Utils
         /// Inmultirea a doua numere complexe | z1 * z2
         complex operator*(const complex& other) const
         {
-            return complex(this->m_real * other.m_real - this->m_imag * other.m_imag, 
-                        this->m_real * other.m_imag + other.m_real * this->m_imag);
+            return complex(
+                this->m_real * other.m_real - this->m_imag * other.m_imag,
+                this->m_real * other.m_imag + other.m_real * this->m_imag
+            );
         }
 
         /// Adunarea a doua numere complexe | z1 + z2
@@ -68,7 +70,7 @@ namespace L2_Utils
         T abs() const
         { return std::sqrt(this->m_real * this->m_real + this->m_imag * this->m_imag); }
 
-        /// Metode de accesare a var private 
+        /// Metode pt. accesarea var. private
         T& real() noexcept { return this->m_real; }
         T& imag() noexcept { return this->m_imag; }
 
@@ -110,52 +112,58 @@ int main()
 {
     double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
 
-    std::cout << "a = "; std::cin >> a;
-    std::cout << "b = "; std::cin >> b;
-    std::cout << "c = "; std::cin >> c;
+    std::cout << "\n\n  Coeficientii ecuatiei de gradul 2:\n\n";
+
+    std::cout << "  a = "; std::cin >> a;
+    std::cout << "  b = "; std::cin >> b;
+    std::cout << "  c = "; std::cin >> c;
+
+    std::cout << "  =================\n";
 
     if (a == 0)
     {
         if (b == 0)
         {
             if (c == 0)
-                std::cout << "inf\n";
+                std::cout << "\n  R: inf\n";
             else
-                std::cout << "Ecuatia este imposibila\n";
+                std::cout << "\n  Ecuatia este imposibila\n";
         }
         else
         {
-            std::cout << "Ecuatie de gradul 1\n";
+            std::cout << "\n  Ecuatie de gradul 1:  ";
             x1 = x2 = -c / b;
 
-            std::cout << x1 << '\n';
+            std::cout << "x = " << x1 << '\n';
 
             if (verif_rad<double>(x1, a, b, c))
-                std::cout << "rezultate corecte\n";
+                std::cout << "  Rezultat corect!\n";
             else
-                std::cout << "rezultate incorecte\n";
+                std::cout << "  Rezultat incorect!\n";
         }
     }
     else
     {
+        std::cout << "\n  Ecuatie de gradul 2:  ";
+
         const double delta = b * b - 4 * a * c;
 
         if (delta > 0)
         {
             const double s_delta = std::sqrt(delta);
 
-            std::cout << "Ecuatia are 2 solutii reale:\n";
+            std::cout << "\n  Ecuatia are 2 solutii reale:  ";
 
             x1 = (-b - s_delta) / (2 * a);
             x2 = (-b + s_delta) / (2 * a);
 
-            std::cout << "x1 = " << x1 << '\n' << "x2 = " << x2 << '\n';
+            std::cout << "x1 = " << x1 << "  " << "x2 = " << x2 << '\n';
 
             if (verif_rad<double>(x1, a, b, c) && verif_rad<double>(x2, a, b, c))
-                std::cout << "rezultate corecte\n";
+                std::cout << "  Rezultate corecte!\n";
             else
-                std::cout << "rezultate incorecte\n";
-        } 
+                std::cout << "  Rezultate incorecte!\n";
+        }
         else if (delta == 0)
         {
             x1 = x2 = -b / (2 * a);
@@ -164,7 +172,7 @@ int main()
         }
         else
         {
-            std::cout << "Ecuatia are 2 solutii complexe:\n";
+            std::cout << "\n  Ecuatia are 2 solutii complexe:  ";
 
             const double a_delta = -delta, s_delta = std::sqrt(a_delta), img = s_delta / (2 * a);
 
@@ -175,12 +183,12 @@ int main()
             x1c.imag() = -img;
             x2c.imag() =  img;
 
-            std::cout << "x1c = " << x1c << '\n' << "x2c = " << x2c << '\n';
+            std::cout << "x1c = " << x1c << "  " << "x2c = " << x2c << '\n';
 
             if (verif_rad<double>(x1c, a, b, c) && verif_rad<double>(x2c, a, b, c))
-                std::cout << "rezultate corecte\n";
+                std::cout << "  Rezultate corecte!\n";
             else
-                std::cout << "rezultate incorecte\n";
+                std::cout << "  Rezultate incorecte!\n";
         }
     }
 
