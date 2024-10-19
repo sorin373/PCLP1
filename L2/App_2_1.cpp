@@ -112,7 +112,7 @@ int main()
 {
     double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
 
-    std::cout << "\n\n  Coeficientii ecuatiei de gradul 2:\n\n";
+    std::cout << "\n\n  Coeficientii ecuatiei:\n\n";
 
     std::cout << "  a = "; std::cin >> a;
     std::cout << "  b = "; std::cin >> b;
@@ -132,7 +132,7 @@ int main()
         else
         {
             std::cout << "\n  Ecuatie de gradul 1:  ";
-            x1 = x2 = -c / b;
+            x1 = -c / b;
 
             std::cout << "x = " << x1 << '\n';
 
@@ -169,6 +169,11 @@ int main()
             x1 = x2 = -b / (2 * a);
 
             std::cout << "x1 = x2 = " << x1 << '\n';
+
+            if (verif_rad<double>(x1, a, b, c))
+                std::cout << "  Rezultate corecte!\n";
+            else
+                std::cout << "  Rezultate incorecte!\n";
         }
         else
         {
