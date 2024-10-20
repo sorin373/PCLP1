@@ -8,8 +8,11 @@
 MODULE L2_Utils
     IMPLICIT NONE
 
-    REAL, PARAMETER :: eps_2p = 1e-10
+    REAL, PARAMETER    :: eps_2p = 1e-10
     INTEGER, PARAMETER :: CALC_PRECISION = 8
+
+    PUBLIC  :: verif_rad
+    PRIVATE :: verif_rad_r, verif_rad_c
 
     INTERFACE verif_rad
         MODULE PROCEDURE verif_rad_r, verif_rad_c

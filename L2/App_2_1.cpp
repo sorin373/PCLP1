@@ -96,17 +96,11 @@ namespace std
 
 template <typename T>
 bool verif_rad(T x, T a, T b, T c)
-{
-    const T era = std::abs(a * x * x + b * x + c);
-    return era < eps_2p;
-}
+{ return std::abs(a * x * x + b * x + c) < eps_2p; }
 
 template <typename T>
 bool verif_rad(L2_Utils::complex<T> x, T a, T b, T c)
-{
-    const L2_Utils::complex<T> era = x * x * a + x * b + c;
-    return std::abs(era) < eps_2p;
-}
+{ return std::abs(x * x * a + x * b + c) < eps_2p; }
 
 int main()
 {
