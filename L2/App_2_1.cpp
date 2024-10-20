@@ -14,15 +14,7 @@ namespace L2_Utils
 {
     /**
      * @brief Structura de date reprezentativa pentru un nr. complex (z = a + bi)
-     *     Am implementat doar functiile necesare de calcul matematic cu numere complexe (*, +)
-     *     folosite in partea de verificare a solutiilor
-     *
-     *     @c * intre doua numere complexe, dar si cu un scalar
-     *     @c + intre doua numere complexe, dar si cu un scalar
-     *
-     *     Se poate folosi atat (z + alpha) cat si (alpha + z). Analog pentru inmultire.
-     *
-     * @tparam T Tipul de data (float | double | long double)
+     * @tparam T Tipul de data pt. partea imaginara si reala a numarului complex (e.g. float, double, long double)
      */
     template <typename T>
     struct complex
@@ -31,19 +23,6 @@ namespace L2_Utils
             : m_real(__r), m_imag(__i) { }
 
         ~complex() = default;
-
-        /// Am folosit operatorul `<<` sa afisez direct numarul complex (a+bi)
-        friend std::ostream& operator<<(std::ostream& os, const complex& __c)
-        {
-            os << __c.m_real;
-
-            if (__c.m_imag >= 0)
-                os << "+";
-
-            os << __c.m_imag << "i";
-
-            return os;
-        }
 
         /// Inmultirea unui scalar cu un numar complex | z * alpha
         complex operator*(const T alpha) const
@@ -54,7 +33,7 @@ namespace L2_Utils
         {
             return complex(
                 this->m_real * other.m_real - this->m_imag * other.m_imag,
-                this->m_real * other.m_imag + other.m_real * this->m_imag
+                this->m_real * other.m_imag + this->m_imag * other.m_real
             );
         }
 
@@ -62,45 +41,134 @@ namespace L2_Utils
         complex operator+(const complex& other) const
         { return complex(this->m_real + other.m_real, this->m_imag + other.m_imag); }
 
-        /// Adunarea unui numar complex cu un scalar | z1 + alpha
+        /// Adunarea unui numar complex cu un scalar | z + alpha
         complex operator+(const T alpha) const
         { return complex(this->m_real + alpha, this->m_imag); }
+
+        /// Scaderea dintre doua numere complexe | z1 - z2
+        complex operator-(const complex& other) const
+        { return complex(this->m_real - other.m_real, this->m_imag - other.m_imag); }
+
+        /// Scaderea dintre un numar complex si un scalar | z - alpha
+        complex operator-(const T alpha) const
+        { return complex(this->m_real - alpha, this->m_imag); }
+
+        /// Impartirea a doua numere complexe | z1 / z2
+        complex operator/(const complex& other) const
+        {
+            complex z_conj = other.conjugate();
+
+            T numitor = other.m_real * other.m_real + other.m_imag * other.m_imag;
+
+            if (numitor == 0)
+                throw std::runtime_error("Division by 0!\n");
+
+            return complex(
+                (this->m_real * z_conj.m_real - this->m_imag * z_conj.m_imag) / numitor,
+                (this->m_real * z_conj.m_imag + this->m_imag * z_conj.m_real) / numitor
+            );
+        }
+
+        /// Impartirea unui numar complex cu un scalar | z1 / alpha
+        complex operator/(const T alpha) const
+        { 
+            if (alpha == 0)
+                throw std::runtime_error("Division by 0!\n");
+
+            return complex(this->m_real / alpha, this->m_imag / alpha);     
+        }
 
         /// Modulul unui numar complex
         T abs() const
         { return std::sqrt(this->m_real * this->m_real + this->m_imag * this->m_imag); }
 
+        complex conjugate() const
+        { return complex(this->m_real, -this->m_imag); }
+
         /// Metode pt. accesarea var. private
-        T& real() noexcept { return this->m_real; }
-        T& imag() noexcept { return this->m_imag; }
+        const T& real() const noexcept { return this->m_real; }
+        const T& imag() const noexcept { return this->m_imag; } 
+
+        /// Metode pt. modificarea var. private
+        void set_real(const T& value) { this->m_real = value; }
+        void set_imag(const T& value) { this->m_imag = value; }
 
     private:
         T m_real, m_imag;
     };
 
-    template <typename T>
-    complex<T> operator+(const T alpha, complex<T>& c)
-    { return complex<T>(c.m_real + alpha, c.m_imag); }
+    /// func. pentru suportul operatiilor unde alpha este operandul din stanga (alpha _op_ z)
 
     template <typename T>
-    complex<T> operator*(const T alpha, complex<T>& c)
-    { return complex<T>(c.m_real * alpha, c.m_imag * alpha); }
+    complex<T> operator+(const T alpha, const complex<T>& z)
+    { return complex<T>(z.real() + alpha, z.imag()); }
+
+    template <typename T>
+    complex<T> operator*(const T alpha, const complex<T>& z)
+    { return complex<T>(z.real() * alpha, z.imag() * alpha); }
+
+    template <typename T>
+    complex<T> operator-(const T alpha, const complex<T>& z)
+    { return complex<T>(alpha - z.real(), -z.imag()); }
+    
+    /// Operatorul `<<` afiseaza direct numarul complex (a+bi)
+    template <typename T>
+    std::ostream& operator<<(std::ostream& os, const complex<T>& z)
+    {
+        os << z.real();
+
+        if (z.imag() >= 0)
+            os << "+";
+
+        os << z.imag() << "i";
+
+        return os;
+    }
 } // L1_Utils
 
 namespace std
 {
-    /// compatibilitate functiei @c std::abs cu tipul de data @c L2_Utils::complex
+    /// compatibilitatea functiei @c std::abs cu tipul de data @c L2_Utils::complex
     template <typename T>
-    T abs(L2_Utils::complex<T> c) { return c.abs(); }
+    T abs(const L2_Utils::complex<T>& z) { return z.abs(); }
+}
+
+/// Functii de verificare a sol.
+
+template <typename T>
+void verif_rad(T a, T b, T c, T x1)
+{
+    const T era = std::abs(a * x1 * x1 + b * x1 + c);
+
+    if (era < eps_2p)
+        std::cout << "  Rezultat corect!\n";
+    else
+        std::cout << "  Rezultat incorect!\n";
 }
 
 template <typename T>
-bool verif_rad(T x, T a, T b, T c)
-{ return std::abs(a * x * x + b * x + c) < eps_2p; }
+void verif_rad(T a, T b, T c, T x1, T x2)
+{
+    const T era_1 = std::abs(a * x1 * x1 + b * x1 + c),
+        era_2 = std::abs(a * x2 * x2 + b * x2 + c);
+
+    if (era_1 < eps_2p && era_2 < eps_2p)
+        std::cout << "  Rezultat corect!\n";
+    else
+        std::cout << "  Rezultat incorect!\n";
+}
 
 template <typename T>
-bool verif_rad(L2_Utils::complex<T> x, T a, T b, T c)
-{ return std::abs(x * x * a + x * b + c) < eps_2p; }
+void verif_rad(T a, T b, T c, L2_Utils::complex<T> x1, L2_Utils::complex<T> x2)
+{ 
+    const T era_1 = std::abs(x1 * x1 * a + x1 * b + c),
+        era_2 = std::abs(x2 * x2 * a + x2 * b + c);
+
+    if (era_1 < eps_2p && era_2 < eps_2p)
+        std::cout << "  Rezultat corect!\n";
+    else
+        std::cout << "  Rezultat incorect!\n";
+}
 
 int main()
 {
@@ -130,10 +198,7 @@ int main()
 
             std::cout << "x = " << x1 << '\n';
 
-            if (verif_rad<double>(x1, a, b, c))
-                std::cout << "  Rezultat corect!\n";
-            else
-                std::cout << "  Rezultat incorect!\n";
+            verif_rad<double>(a, b, c, x1);
         }
     }
     else
@@ -153,10 +218,7 @@ int main()
 
             std::cout << "x1 = " << x1 << "  " << "x2 = " << x2 << '\n';
 
-            if (verif_rad<double>(x1, a, b, c) && verif_rad<double>(x2, a, b, c))
-                std::cout << "  Rezultate corecte!\n";
-            else
-                std::cout << "  Rezultate incorecte!\n";
+            verif_rad<double>(a, b, c, x1, x2);
         }
         else if (delta == 0)
         {
@@ -164,30 +226,26 @@ int main()
 
             std::cout << "x1 = x2 = " << x1 << '\n';
 
-            if (verif_rad<double>(x1, a, b, c))
-                std::cout << "  Rezultate corecte!\n";
-            else
-                std::cout << "  Rezultate incorecte!\n";
+            verif_rad<double>(a, b, c, x1);
         }
         else
         {
             std::cout << "\n  Ecuatia are 2 solutii complexe:  ";
 
-            const double a_delta = -delta, s_delta = std::sqrt(a_delta), img = s_delta / (2 * a);
+            const double a_delta = -delta, s_delta = std::sqrt(a_delta), 
+                img = s_delta / (2 * a), real = -b / (2 * a);
 
-            L2_Utils::complex<double> x1c, x2c;
+            L2_Utils::complex<double> x1c(real, ), x2c;
 
-            x1c.real() = x2c.real() = -b / (2 * a);
+            x1c.set_real(real);
+            x2c.set_real(real);
 
-            x1c.imag() = -img;
-            x2c.imag() =  img;
+            x1c.set_imag(-img);
+            x2c.set_imag(img);
 
             std::cout << "x1c = " << x1c << "  " << "x2c = " << x2c << '\n';
 
-            if (verif_rad<double>(x1c, a, b, c) && verif_rad<double>(x2c, a, b, c))
-                std::cout << "  Rezultate corecte!\n";
-            else
-                std::cout << "  Rezultate incorecte!\n";
+            verif_rad<double>(a, b, c, x1c, x2c);
         }
     }
 
