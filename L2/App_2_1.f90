@@ -14,42 +14,60 @@ MODULE L2_Utils
     PUBLIC  :: verif_rad
     PRIVATE :: verif_rad_r, verif_rad_c
 
+    ! proceduri de verificare a sol. (toate se folosesc prin interfata `verif_rad`)
     INTERFACE verif_rad
-        MODULE PROCEDURE verif_rad_r, verif_rad_c
+        MODULE PROCEDURE verif_rad_r1, verif_rad_r, verif_rad_c
     END INTERFACE verif_rad
 
     CONTAINS
 
-    FUNCTION verif_rad_r(x, a, b, c) RESULT(retval)
+    SUBROUTINE verif_rad_r1(a, b, c, x)
         IMPLICIT NONE
 
         REAL(KIND = CALC_PRECISION), INTENT(IN) :: x, a, b, c
-        REAL(KIND = CALC_PRECISION) :: retval, era
+        REAL(KIND = CALC_PRECISION) :: era
 
         era = abs(a * x * x + b * x + c)
 
         IF (era .LT. eps_2p) THEN
-            retval = 1
+            WRITE(*,*) "Rezultat corect!"
         ELSE
-            retval = 0
+            WRITE(*,*) "Rezultat incorect!"
         END IF
-    END FUNCTION verif_rad_r
+    END SUBROUTINE verif_rad_r1
 
-    FUNCTION verif_rad_c(x, a, b, c) RESULT(retval)
+    SUBROUTINE verif_rad_r(a, b, c, x1, x2)
         IMPLICIT NONE
 
-        COMPLEX(KIND = CALC_PRECISION), INTENT(IN) :: x
-        REAL(KIND = CALC_PRECISION), INTENT(IN) :: a, b, c
-        REAL(KIND = CALC_PRECISION) :: retval, era
+        REAL(KIND = CALC_PRECISION), INTENT(IN) :: x1, x2, a, b, c
+        REAL(KIND = CALC_PRECISION) :: era_1, era_2
 
-        era = abs(a * x * x + b * x + c)
+        era_1 = abs(a * x1 * x1 + b * x1 + c)
+        era_2 = abs(a * x2 * x2 + b * x2 + c)
 
-        IF (era .LT. eps_2p) THEN
-            retval = 1
+        IF (era_1 .LT. eps_2p .AND. era_2 .LT. eps_2p) THEN
+            WRITE(*,*) "Rezultat corect!"
         ELSE
-            retval = 0
+            WRITE(*,*) "Rezultat incorect!"
         END IF
-    END FUNCTION verif_rad_c
+    END SUBROUTINE verif_rad_r
+
+    SUBROUTINE verif_rad_c(a, b, c, x1, x2)
+        IMPLICIT NONE
+
+        COMPLEX(KIND = CALC_PRECISION), INTENT(IN) :: x1, x2
+        REAL(KIND = CALC_PRECISION), INTENT(IN) :: a, b, c
+        REAL(KIND = CALC_PRECISION) :: era_1, era_2
+
+        era_1 = abs(a * x1 * x1 + b * x1 + c)
+        era_2 = abs(a * x2 * x2 + b * x2 + c)
+
+        IF (era_1 .LT. eps_2p .AND. era_2 .LT. eps_2p) THEN
+            WRITE(*,*) "Rezultat corect!"
+        ELSE
+            WRITE(*,*) "Rezultat incorect!"
+        END IF
+    END SUBROUTINE verif_rad_c
 END MODULE L2_Utils
 
 PROGRAM main
@@ -75,11 +93,7 @@ PROGRAM main
 
             WRITE(*,*) "x1 = ", x1
 
-            IF (verif_rad(x1, a, b, c) .EQ. 1) THEN
-                WRITE(*,*) "Rezultat corect!"
-            ELSE
-                WRITE(*,*) "Rezultat incorecte!"
-            END IF
+            CALL verif_rad(a, b, c, x1)
         END IF
     ELSE
         WRITE(*,*) "Ecuatie de gradul 2:"
@@ -95,11 +109,7 @@ PROGRAM main
 
             WRITE(*,*) "x1 = ", x1, "x2 = ", x2
 
-            IF (verif_rad(x1, a, b, c) .EQ. 1 .AND. verif_rad(x2, a, b, c) .EQ. 1) THEN
-                WRITE(*,*) "Rezultate corecte!"
-            ELSE
-                WRITE(*,*) "Rezultate incorecte!"
-            END IF
+            CALL verif_rad(a, b, c, x1, x2)
         ELSE IF (delta .EQ. 0) THEN
 
             x1 = -b / (2 * a);
@@ -107,11 +117,7 @@ PROGRAM main
 
             WRITE(*,*) "x1 = x2 = ", x1
 
-            IF (verif_rad(x1, a, b, c) .EQ. 1) THEN
-                WRITE(*,*) "Rezultate corecte!"
-            ELSE
-                WRITE(*,*) "Rezultate incorecte!"
-            END IF
+            CALL verif_rad(a, b, c, x1)
         ELSE
             WRITE(*,*) "Ecuatia are 2 solutii complexe:"
 
@@ -125,11 +131,7 @@ PROGRAM main
 
             WRITE(*,*) "x1c = ", x1c, "x2c = ", x2c
 
-            IF (verif_rad(x1c, a, b, c) .EQ. 1 .AND. verif_rad(x2c, a, b, c) .EQ. 1) THEN
-                WRITE(*,*) "Rezultate corecte!"
-            ELSE
-                WRITE(*,*) "Rezultate incorecte!"
-            END IF
+            CALL verif_rad(a, b, c, x1c, x2c)
         END IF
     END IF
 

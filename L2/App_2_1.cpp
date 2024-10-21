@@ -15,12 +15,16 @@ namespace L2_Utils
     /**
      * @brief Structura de date reprezentativa pentru un nr. complex (z = a + bi)
      * @tparam T Tipul de data pt. partea imaginara si reala a numarului complex (e.g. float, double, long double)
+     *     
+     * Pentru alte tipuri de date, comportamentul nu este garantat.
+     * 
+     * @see operator*, operator+, operator-, operator/, abs, conjugate
      */
     template <typename T>
     struct complex
     {
-        complex(T __r = 0, T __i = 0)
-            : m_real(__r), m_imag(__i) { }
+        complex(T real = 0.0, T imag = 0.0)
+            : m_real(real), m_imag(imag) { }
 
         ~complex() = default;
 
@@ -82,6 +86,7 @@ namespace L2_Utils
         T abs() const
         { return std::sqrt(this->m_real * this->m_real + this->m_imag * this->m_imag); }
 
+        /// Conjugatul unui numar complex
         complex conjugate() const
         { return complex(this->m_real, -this->m_imag); }
 
@@ -89,15 +94,11 @@ namespace L2_Utils
         const T& real() const noexcept { return this->m_real; }
         const T& imag() const noexcept { return this->m_imag; } 
 
-        /// Metode pt. modificarea var. private
-        void set_real(const T& value) { this->m_real = value; }
-        void set_imag(const T& value) { this->m_imag = value; }
-
     private:
         T m_real, m_imag;
     };
 
-    /// func. pentru suportul operatiilor unde alpha este operandul din stanga (alpha _op_ z)
+    /// func. pentru suportul operatiilor, unde alpha este operandul din stanga (alpha _op_ z)
 
     template <typename T>
     complex<T> operator+(const T alpha, const complex<T>& z)
@@ -124,6 +125,37 @@ namespace L2_Utils
 
         return os;
     }
+
+    /**
+     * @brief template pt. verificarea solutiilor
+     * @tparam T Tipul de data
+     */
+    template <typename T>
+    struct verif_rad
+    {
+        void operator()(T a, T b, T c, T x1)
+        {
+            const T era = std::abs(a * x1 * x1 + b * x1 + c);
+            if (era < eps_2p)
+                std::cout << "  Rezultat corect!\n";
+            else
+                std::cout << "  Rezultat incorect!\n";
+        }
+
+        void operator()(T a, T b, T c, T x1, T x2)
+        {
+            const T era_1 = std::abs(a * x1 * x1 + b * x1 + c),
+
+            era_2 = std::abs(a * x2 * x2 + b * x2 + c);
+
+            if (era_1 < eps_2p && era_2 < eps_2p)
+                std::cout << "  Rezultat corect!\n";
+            else
+                std::cout << "  Rezultat incorect!\n";
+        }
+
+        void operator()(T a, T b, T c, complex<T> x1, complex<T> x2);
+    };
 } // L1_Utils
 
 namespace std
@@ -133,36 +165,12 @@ namespace std
     T abs(const L2_Utils::complex<T>& z) { return z.abs(); }
 }
 
-/// Functii de verificare a sol.
-
 template <typename T>
-void verif_rad(T a, T b, T c, T x1)
+void L2_Utils::verif_rad<T>::operator()(T a, T b, T c, L2_Utils::complex<T> x1, L2_Utils::complex<T> x2)
 {
-    const T era = std::abs(a * x1 * x1 + b * x1 + c);
-
-    if (era < eps_2p)
-        std::cout << "  Rezultat corect!\n";
-    else
-        std::cout << "  Rezultat incorect!\n";
-}
-
-template <typename T>
-void verif_rad(T a, T b, T c, T x1, T x2)
-{
-    const T era_1 = std::abs(a * x1 * x1 + b * x1 + c),
-        era_2 = std::abs(a * x2 * x2 + b * x2 + c);
-
-    if (era_1 < eps_2p && era_2 < eps_2p)
-        std::cout << "  Rezultat corect!\n";
-    else
-        std::cout << "  Rezultat incorect!\n";
-}
-
-template <typename T>
-void verif_rad(T a, T b, T c, L2_Utils::complex<T> x1, L2_Utils::complex<T> x2)
-{ 
     const T era_1 = std::abs(x1 * x1 * a + x1 * b + c),
-        era_2 = std::abs(x2 * x2 * a + x2 * b + c);
+
+    era_2 = std::abs(x2 * x2 * a + x2 * b + c);
 
     if (era_1 < eps_2p && era_2 < eps_2p)
         std::cout << "  Rezultat corect!\n";
@@ -171,7 +179,9 @@ void verif_rad(T a, T b, T c, L2_Utils::complex<T> x1, L2_Utils::complex<T> x2)
 }
 
 int main()
-{
+{   
+    L2_Utils::verif_rad<double> verificare_radacini;
+
     double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
 
     std::cout << "\n\n  Coeficientii ecuatiei:\n\n";
@@ -198,7 +208,7 @@ int main()
 
             std::cout << "x = " << x1 << '\n';
 
-            verif_rad<double>(a, b, c, x1);
+            verificare_radacini(a, b, c, x1);
         }
     }
     else
@@ -218,7 +228,7 @@ int main()
 
             std::cout << "x1 = " << x1 << "  " << "x2 = " << x2 << '\n';
 
-            verif_rad<double>(a, b, c, x1, x2);
+            verificare_radacini(a, b, c, x1, x2);
         }
         else if (delta == 0)
         {
@@ -226,7 +236,7 @@ int main()
 
             std::cout << "x1 = x2 = " << x1 << '\n';
 
-            verif_rad<double>(a, b, c, x1);
+            verificare_radacini(a, b, c, x1);
         }
         else
         {
@@ -235,17 +245,11 @@ int main()
             const double a_delta = -delta, s_delta = std::sqrt(a_delta), 
                 img = s_delta / (2 * a), real = -b / (2 * a);
 
-            L2_Utils::complex<double> x1c(real, ), x2c;
-
-            x1c.set_real(real);
-            x2c.set_real(real);
-
-            x1c.set_imag(-img);
-            x2c.set_imag(img);
+            L2_Utils::complex<double> x1c(real, -img), x2c(real, img);
 
             std::cout << "x1c = " << x1c << "  " << "x2c = " << x2c << '\n';
 
-            verif_rad<double>(a, b, c, x1c, x2c);
+            verificare_radacini(a, b, c, x1c, x2c);
         }
     }
 

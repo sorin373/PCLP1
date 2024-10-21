@@ -1,16 +1,29 @@
+# 
+# PCLP1 | L2
+# Rezolvarea ecuatiei de gradul 2.
+# 
+# File: App_2_1.py
+# 
+
 import cmath
 import math
 
 eps_2p = 1e-10
 
-def verif_rad(x, a, b, c): return abs(a * x * x + b * x + c) < eps_2p
-
-a = 0
-b = 0
-c = 0
+def verif_rad(a, b, c, x1, x2=None):
+    if x2 is None:
+        if abs(a * x1 * x1 + b * x1 + c) < eps_2p:
+            print("  Rezultat corect!")
+        else:
+            print("  Rezultat incorect!")
+    else:
+        if (abs(a * x1 * x1 + b * x1 + c) < eps_2p and 
+            abs(a * x2 * x2 + b * x2 + c) < eps_2p):
+            print("  Rezultat corect!")
+        else:
+            print("  Rezultat incorect!")
 
 def get_input():
-    global a, b, c, d
 
     print("\n\n  Coeficientii ecuatiei:\n\n")
 
@@ -20,8 +33,10 @@ def get_input():
 
     print("  =================\n")
 
+    return a, b, c
+
 def main():
-    get_input()
+    a, b, c = get_input()
 
     if (a == 0):
         if (b == 0):
@@ -35,10 +50,7 @@ def main():
 
             print("  x = %f\n" % (x1))
 
-            if (verif_rad(x1, a, b, c)):
-                print("  Rezultat corect!\n")
-            else:
-                print("  Rezultat incorect!\n")
+            verif_rad(a, b, c, x1)
     else:
         print("\n  Ecuatie de gradul 2:  ")
 
@@ -54,19 +66,13 @@ def main():
 
             print("  x1 = %f  x2 = %f\n" % (x1, x2))
 
-            if (verif_rad(x1, a, b, c) and verif_rad(x2, a, b, c)):
-                print("  Rezultate corecte!\n")
-            else:
-                print("  Rezultate incorecte!\n")
+            verif_rad(a, b, c, x1, x2)
         elif (delta == 0):
             x1 = x2 = -b / (2 * a)
 
             print("  x1 = x2 = %f\n" % (x1))
 
-            if (verif_rad(x1, a, b, c)):
-                print("  Rezultate corecte!\n")
-            else:
-                print("  Rezultate incorecte!\n")
+            verif_rad(a, b, c, x1)
         else:
             print("\n  Ecuatia are 2 solutii complexe:  ")
 
@@ -80,10 +86,7 @@ def main():
             
             print("  x1c = {:.2f}  x2c = {:.2f}\n".format(x1c, x2c))
 
-            if (verif_rad(x1c, a, b, c) and verif_rad(x2c, a, b, c)):
-                print("  Rezultate corecte!\n")
-            else:
-                print("  Rezultate incorecte!\n")
+            verif_rad(a, b, c, x1c, x2c)
 
 if __name__ == "__main__":
     main() 
