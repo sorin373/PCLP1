@@ -102,7 +102,7 @@ namespace L2_Utils
 
     template <typename T>
     complex<T> operator+(const T alpha, const complex<T>& z)
-    { return complex<T>(z.real() + alpha, z.imag()); }
+    { return complex<T>(z.real() + alpha, za; }
 
     template <typename T>
     complex<T> operator*(const T alpha, const complex<T>& z)
@@ -181,6 +181,7 @@ void L2_Utils::verif_rad<T>::operator()(T a, T b, T c, L2_Utils::complex<T> x1, 
 int main()
 {   
     L2_Utils::verif_rad<double> verificare_radacini;
+
 
     double a = 0, b = 0, c = 0, x1 = 0, x2 = 0;
 
