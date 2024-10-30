@@ -60,6 +60,10 @@ int main()
 
     double teta = to_degrees(std::acos(x0 / r));
 
+     // Cadranul III și IV
+    if (y0 < 0)
+        teta = 360 - teta; 
+
     std::cout << "\n  r = " << r << "\n  teta = " << teta << " [deg]\n";
 
     double x1 = r * std::cos(to_rad(teta)), y1 = r * std::sin(to_rad(teta));

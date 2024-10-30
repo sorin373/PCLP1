@@ -1,3 +1,10 @@
+#
+#  PCLP1 | L2
+#  Determinarea coordonatelor punctului P(r, teta) in coordonate polare
+# 
+#  App_2_2.py
+#
+
 import math
 
 eps_2p = 1e-10
@@ -36,6 +43,9 @@ def main():
        print("\n  Raza este 0.\n")
     else:
         teta = to_degrees(math.acos(x0 / r))
+
+        if (y0 < 0):
+            teta = 360 - teta
 
         print("\n  r = %f\n  teta = %f [deg]\n" % (r, teta))
 

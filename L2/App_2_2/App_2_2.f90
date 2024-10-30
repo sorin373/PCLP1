@@ -1,9 +1,16 @@
+! 
+! PCLP1 | L2
+!    Determinarea coordonatelor punctului P(r, teta) in coordonate polare
+!    
+! App_2_2.f90
+! 
+
 MODULE L2_Utils
     IMPLICIT NONE
 
     INTEGER, PARAMETER :: CALC_PRECISION = 8
 
-    REAL, PARAMETER    :: eps_2p = 1e-10
+    REAL, PARAMETER :: eps_2p = 1e-10
     REAL, PARAMETER :: PI = 3.14159265358979323846264338327950288419716939937510
 
     CONTAINS
@@ -81,6 +88,10 @@ PROGRAM main
         WRITE(*,*) "Raza este 0."
     ELSE
         teta = to_degrees(acos(x0 / r))
+
+        IF (y0 .LT. 0) THEN
+            teta = 360 - teta
+        END IF 
 
         WRITE(*,*)
         WRITE(*,*) "r = ", r, "; teta = ", teta, "[deg]"
