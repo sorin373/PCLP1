@@ -41,18 +41,32 @@ def main():
 
     if (r == 0):
        print("\n  Raza este 0.\n")
+       return
+    
+    if (x0 == 0 and y0 > 0):
+        teta = 90.0
+    elif (x0 == 0 and y0 < 0):
+        teta = 270.0
+    elif (y0 == 0 and x0 > 0):
+        teta = 0.0
+    elif (y0 == 0 and x0 < 0):
+        teta = 180.0
     else:
-        teta = to_degrees(math.acos(x0 / r))
+        teta = to_degrees(math.acos(abs(x0) / r))
 
-        if (y0 < 0):
-            teta = 360 - teta
+        if (x0 < 0 and y0 > 0):
+            teta = 180 - teta 
+        elif (x0 < 0 and y0 < 0):
+            teta = 180 + teta 
+        elif (x0 > 0 and y0 < 0):
+            teta = 360 - teta 
 
-        print("\n  r = %f\n  teta = %f [deg]\n" % (r, teta))
+    print("\n  r = %f\n  teta = %f [deg]\n" % (r, teta))
 
-        x1 = r * math.cos(to_rad(teta))
-        y1 = r * math.sin(to_rad(teta))
+    x1 = r * math.cos(to_rad(teta))
+    y1 = r * math.sin(to_rad(teta))
 
-        err(x0, y0, x1, y1)
+    err(x0, y0, x1, y1)
 
 if __name__ == "__main__":
     main()

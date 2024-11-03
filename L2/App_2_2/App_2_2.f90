@@ -86,16 +86,31 @@ PROGRAM main
 
     IF (r .EQ. 0) THEN
         WRITE(*,*) "Raza este 0."
-    ELSE
-        teta = to_degrees(acos(x0 / r))
-
-        IF (y0 .LT. 0) THEN
-            teta = 360 - teta
-        END IF 
-
-        WRITE(*,*)
-        WRITE(*,*) "r = ", r, "; teta = ", teta, "[deg]"
+        RETURN
     END IF
+    
+    IF (x0 == 0 .AND. y0 > 0) THEN
+        teta = 90.0;
+    ELSE IF (x0 == 0 .AND. y0 < 0) THEN
+        teta = 270.0;
+    ELSE IF (y0 == 0 .AND. x0 > 0) THEN
+        teta = 0.0;
+    ELSE IF (y0 == 0 .AND. x0 < 0) THEN
+        teta = 180.0;
+    ELSE
+        teta = to_degrees(acos(abs(x0) / r));
+
+        IF (x0 < 0 .AND. y0 > 0) THEN
+            teta = 180 - teta; 
+        ELSE IF (x0 < 0 .AND. y0 < 0) THEN
+            teta = 180 + teta; 
+        ELSE IF (x0 > 0 .AND. y0 < 0) THEN
+            teta = 360 - teta; 
+        END IF
+    END IF
+
+    WRITE(*,*)
+    WRITE(*,*) "r = ", r, "; teta = ", teta, "[deg]"
 
     x1 = r * cos(to_rad(teta))
     y1 = r * sin(to_rad(teta))

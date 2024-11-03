@@ -1,10 +1,3 @@
-/**
- * @brief PCLP1 | L2
- *    Determinarea coordonatelor punctului P(r, teta) in coordonate polare
- *
- * @file App_2_2.cpp
- */
-
 #include <iostream>
 #include <cmath>
 
@@ -23,15 +16,14 @@ void era(double x1, double y1)
 
 void err(double x0, double y0, double x1, double y1)
 {
-    // daca ambele coord. sunt 0 => direct era
     if (std::abs(x0) < eps_2p && std::abs(y0) < eps_2p)
     {
         era(x1, y1);
         return;
     }
 
-    bool verifX = (x0 != 0) ? (std::abs(x1 - x0) / x0) < eps_2p : std::abs(x1) < eps_2p,
-         verifY = (y0 != 0) ? (std::abs(y1 - y0) / y0) < eps_2p : std::abs(y1) < eps_2p;
+    bool verifX = (x0 != 0) ? (std::abs(x1 - x0) / x0) < eps_2p : std::abs(x1) < eps_2p;
+    bool verifY = (y0 != 0) ? (std::abs(y1 - y0) / y0) < eps_2p : std::abs(y1) < eps_2p;
 
     if (verifX && verifY)
         std::cout << "  Rezultat corect!\n";
@@ -58,11 +50,27 @@ int main()
         return 0;
     }
 
-    double teta = to_degrees(std::acos(x0 / r));
+    double teta = 0; 
 
-     // Cadranul III și IV
-    if (y0 < 0)
-        teta = 360 - teta; 
+    if (x0 == 0 && y0 > 0)
+        teta = 90.0;
+    else if (x0 == 0 && y0 < 0)
+        teta = 270.0;
+    else if (y0 == 0 && x0 > 0)
+        teta = 0.0;
+    else if (y0 == 0 && x0 < 0)
+        teta = 180.0;
+    else
+    {
+        teta = to_degrees(std::acos(std::abs(x0) / r));
+
+        if (x0 < 0 && y0 > 0)
+            teta = 180 - teta; 
+        else if (x0 < 0 && y0 < 0)
+            teta = 180 + teta; 
+        else if (x0 > 0 && y0 < 0)
+            teta = 360 - teta; 
+    }
 
     std::cout << "\n  r = " << r << "\n  teta = " << teta << " [deg]\n";
 
