@@ -1,3 +1,10 @@
+!
+! PCLP1 | L4
+! Determinarea daca un numar este prim si perfect.
+!
+! File: App_4_1.f90
+!
+
 PROGRAM main
     IMPLICIT NONE
 

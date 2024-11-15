@@ -1,3 +1,10 @@
+# 
+# PCLP1 | L4
+# Determinarea daca un numar este prim si perfect.
+# 
+# File: App_4_1.py
+# 
+
 def is_prime(n):
     if n <= 1:
         return False

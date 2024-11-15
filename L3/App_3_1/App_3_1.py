@@ -24,6 +24,5 @@ def main():
     
     print(f"  n! = {fact}")
 
-
 if __name__ == "__main__":
     main()

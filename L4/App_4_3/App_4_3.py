@@ -1,3 +1,12 @@
+# 
+# PCLP1 | L4
+#   - Verificam daca  trei perechi de puncte (xi,yi) formează un triunghi
+#   - Verificam daca este un triunghi dreptunghic, isoscel sau echilateral
+#   - arie triunghi 
+# 
+# File: App_4_3.py
+# 
+
 from math import sqrt
 
 class Point:

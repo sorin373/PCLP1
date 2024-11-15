@@ -1,3 +1,10 @@
+!
+! PCLP1 | L4
+! Calcularea CMMDC-ului si al CMMMC-ului a doua numere.
+!
+! File: App_4_2.f90
+!
+
 PROGRAM main
     IMPLICIT NONE
 
