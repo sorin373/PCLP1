@@ -1,4 +1,4 @@
-# Lab_1
+# [Lab_1](https://github.com/sorin373/PCLP1/blob/main/L1/PCLP1%20Lab%201%202024.pdf)
 
 # Lab_2
   - [App_2_1](https://github.com/sorin373/PCLP1/tree/main/L2/App_2_1)
