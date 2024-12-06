@@ -19,7 +19,7 @@ int main()
 
         if (cnt > n)
         {
-            int *aux = static_cast<int*>(malloc(2 * cnt * sizeof(int)));
+            int *aux = static_cast<int*>(malloc(cnt * sizeof(int)));
 
             for (unsigned int i = 0; i < n; ++i)
                 aux[i] = v[i];

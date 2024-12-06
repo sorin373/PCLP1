@@ -2,7 +2,7 @@ PROGRAM main
     IMPLICIT NONE
 
     INTEGER, DIMENSION(:,:), ALLOCATABLE :: m
-    INTEGER :: n, i, j, s
+    INTEGER :: n, i, j, s, cnt
 
     WRITE(*, '(A)', ADVANCE='NO') "n = "
     READ(*,*) n
@@ -25,12 +25,15 @@ PROGRAM main
         END DO
 
         s = 0
+        cnt = 1
 
         DO i = 1, n
             DO j = 1, n
-                IF (MOD(j, 2) .EQ. 0) THEN
+                IF (MOD(cnt, 2) .EQ. 0) THEN
                     s = s + m(j, i)
                 END IF
+
+                cnt = cnt + 1
             END DO
         END DO
 

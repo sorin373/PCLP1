@@ -40,12 +40,17 @@ int main()
             std::cout << '\n';
         }
 
-        unsigned int s = 0;
+        unsigned int s = 0, cnt = 0;
 
         for (unsigned int i = 0; i < n; ++i)
             for (unsigned int j = 0; j < n; ++j)
-                if (j % 2 != 0)
+            {
+                if (cnt % 2 != 0)
                     s += m[j][i];
+
+                ++cnt;
+            }
+
 
         std::cout << "s = " << s;
 

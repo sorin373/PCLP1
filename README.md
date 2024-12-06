@@ -13,3 +13,7 @@
   - [App_4_1](https://github.com/sorin373/PCLP1/tree/main/L4/App_4_1)
   - [App_4_2](https://github.com/sorin373/PCLP1/tree/main/L4/App_4_2)
   - [App_4_3](https://github.com/sorin373/PCLP1/tree/main/L4/App_4_3)
+
+# Lab_5
+  - [App_5_1](https://github.com/sorin373/PCLP1/tree/main/L5/App_5_1)
+  - [App_5_2](https://github.com/sorin373/PCLP1/tree/main/L5/App_5_2)
