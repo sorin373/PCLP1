@@ -1,4 +1,13 @@
+/**
+ * @brief PCLP1 | L5
+ *      - Construiti, afisati si salvati intr-un fisier o matrice pătratică cu n linii și n coloane (matricea trebuie alocata dinamic) 
+ *      - Calculati suma s elementelor de index par (elementele matricei se indexeaza/linearizeaza dupa coloane)    
+ *
+ * @file App_5_1.cpp
+ */
+
 #include <iostream>
+#include <fstream>
 
 template <typename T>
 T allocate(const unsigned int p_size)
@@ -15,6 +24,8 @@ int main()
 {
     try
     {
+        std::ofstream fout("matrice.out");
+
         unsigned int n;
 
         do
@@ -26,7 +37,7 @@ int main()
         bool **m = allocate<bool**>(n);
 
         for (unsigned int i = 0; i < n; ++i)
-            m[i] = static_cast<bool*>(malloc(n * sizeof(bool)));
+            m[i] = allocate<bool*>(n);
 
         for (unsigned int i = 0; i < n; ++i)
             for (unsigned int j = 0; j < n; ++j)
@@ -35,10 +46,12 @@ int main()
         for (unsigned int i = 0; i < n; ++i)
         {
             for (unsigned int j = 0; j < n; ++j)
-                std::cout << m[i][j] << " ";
+                fout << m[i][j] << " ";
 
-            std::cout << '\n';
+            fout << '\n';
         }
+
+        fout.close();
 
         unsigned int s = 0, cnt = 0;
 
@@ -50,7 +63,6 @@ int main()
 
                 ++cnt;
             }
-
 
         std::cout << "s = " << s;
 

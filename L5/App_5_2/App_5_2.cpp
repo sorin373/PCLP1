@@ -1,3 +1,11 @@
+/**
+ * @brief PCLP1 | L5
+ *      Realizați un program care citește un vector de numere intregi dintr-un fisier si il sorteaza crescator folosind
+ *      metoda MINMAX, il afiseaza pe ecran si il salveaza intr-un fisier. 
+ *
+ * @file App_5_2.cpp
+ */
+
 #include <iostream>
 #include <fstream>
 

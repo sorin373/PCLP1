@@ -1,3 +1,11 @@
+!
+! PCLP1 | L5
+!   - Construiti, afisati si salvati intr-un fisier o matrice pătratică cu n linii și n coloane (matricea trebuie alocata dinamic) 
+!   - Calculati suma s elementelor de index par (elementele matricei se indexeaza/linearizeaza dupa coloane) 
+!
+! File: App_5_1.f90
+!
+
 PROGRAM main
     IMPLICIT NONE
 
@@ -6,6 +14,8 @@ PROGRAM main
 
     WRITE(*, '(A)', ADVANCE='NO') "n = "
     READ(*,*) n
+
+    OPEN(UNIT=1, FILE='matrice.out', STATUS='old') 
 
     ALLOCATE(m(n,n))
 
@@ -21,8 +31,10 @@ PROGRAM main
         END DO
 
         DO i = 1, n
-            WRITE(*, "(1000I2)") m(i, 1:n)
+            WRITE(1, "(1000I2)") m(i, 1:n)
         END DO
+
+        CLOSE(1)
 
         s = 0
         cnt = 1

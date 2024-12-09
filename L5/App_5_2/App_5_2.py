@@ -1,3 +1,11 @@
+# 
+# PCLP1 | L5
+#   Realizați un program care citește un vector de numere intregi dintr-un fisier si il sorteaza crescator folosind
+#   metoda MINMAX, il afiseaza pe ecran si il salveaza intr-un fisier. 
+# 
+# File: App_5_2.py
+# 
+
 def main():
     f = open("vector.txt", "r")
 

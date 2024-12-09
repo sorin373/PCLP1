@@ -52,7 +52,7 @@ def main():
         elif AB == AC or AC == BC or AB == BC:
             print("Triunghi isoscel!\n")
         
-        area = delta / 2;
+        area = delta / 2
 
         if area == AB * AC / 2 or area == AB * BC / 2 or area == AC * BC / 2:
             print("Triunghi dreptunghic!\n")
