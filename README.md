@@ -17,3 +17,8 @@
 # Lab_5
   - [App_5_1](https://github.com/sorin373/PCLP1/tree/main/L5/App_5_1)
   - [App_5_2](https://github.com/sorin373/PCLP1/tree/main/L5/App_5_2)
+
+# Lab_6
+  - [App_6_1](https://github.com/sorin373/PCLP1/tree/main/L6/App_6_1)
+  - [App_6_2](https://github.com/sorin373/PCLP1/tree/main/L6/App_6_2)
+  - [App_6_3](https://github.com/sorin373/PCLP1/tree/main/L6/App_6_3)
