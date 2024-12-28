@@ -24,7 +24,7 @@ MODULE L5
 
     SUBROUTINE bubble_sort(v, n)
         INTEGER, ALLOCATABLE :: v(:)
-        INTEGER :: n, i, j, minim, aux
+        INTEGER :: n, i, aux
         LOGICAL :: is_sorted
 
         is_sorted = .FALSE.

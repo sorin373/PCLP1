@@ -1,3 +1,11 @@
+# 
+# PCLP1 | L6
+#   Realizați un program care citește un vector de numere intregi dintr-un fisier si il sorteaza crescator folosind
+#   metoda SELECT, il afiseaza pe ecran si il salveaza intr-un fisier.  
+# 
+# File: App_6_1.py
+# 
+
 def select_sort(v):
     n = len(v)
 
